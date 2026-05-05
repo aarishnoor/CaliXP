@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calisthenics App Onboarding</title>
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --primary: #005BFF;
+            --primary-light: #A0C2FF;
+            --bg: #FFFFFF;
+            --text-main: #1A1A1A;
+            --text-muted: #8E8E93;
+            --border: #E5E5EA;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Mobile-sized container for the web */
+        #app-container {
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            max-height: 800px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* Header & Progress Bar */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            margin-top: 20px;
+        }
+
+        .back-btn {
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-main);
+            border: none;
+            background: none;
+        }
+
+        .skip-btn {
+            font-size: 16px;
+            color: var(--text-muted);
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .progress-bar-container {
+            width: 50%;
+            height: 4px;
+            background-color: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-main);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Options List */
+        #options-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .option-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #fff;
+        }
+
+        .option-card:hover {
+            border-color: var(--primary-light);
+        }
+
+        .option-card.selected {
+            border-color: var(--primary);
+            background-color: rgba(0, 91, 255, 0.05);
+        }
+
+        .option-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .option-sub {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .option-icon {
+            font-size: 32px;
+        }
+
+        /* Footer & Button */
+        .footer {
+            margin-top: auto;
+            padding-bottom: 20px;
+        }
+
+        .next-btn {
+            width: 100%;
+            padding: 18px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .next-btn:disabled {
+            background-color: var(--primary-light);
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        <div class="header">
+            <button class="back-btn" onclick="prevStep()">←</button>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progress"></div>
+            </div>
+            <button class="skip-btn" onclick="nextStep()">Skip</button>
+        </div>
+
+        <h1 id="question-title">Loading...</h1>
+
+        <div id="options-container">
+            </div>
+
+        <div class="footer">
+            <button class="next-btn" id="next-btn" onclick="nextStep()" disabled>NEXT</button>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA STRUCTURE ---
+        // This array defines the entire flow. You can easily add more steps here.
+        const flowSteps = [
+            {
+                id: 'gender',
+                title: 'What\'s your gender?',
+                options: [
+                    { value: 'male', title: 'Male', icon: '👨' },
+                    { value: 'female', title: 'Female', icon: '👩' }
+                ]
+            },
+            {
+                id: 'goals',
+                title: 'What are your main goals?',
+                options: [
+                    { value: 'skills', title: 'Learn Skills', sub: 'Handstands, Muscle-ups', icon: '🤸' },
+                    { value: 'muscle', title: 'Build Muscle', sub: 'Hypertrophy & Strength', icon: '💪' },
+                    { value: 'shred', title: 'Get Shredded', sub: 'Lose fat, reveal abs', icon: '🔥' }
+                ]
+            },
+            {
+                id: 'focus',
+                title: 'Please choose your focus area',
+                options: [
+                    { value: 'full_body', title: 'Full Body', icon: '🧍' },
+                    { value: 'upper', title: 'Upper Body (Arms & Chest)', icon: '🦍' },
+                    { value: 'core', title: 'Core (Abs & Levers)', icon: '🍫' },
+                    { value: 'legs', title: 'Legs', icon: '🦵' }
+                ]
+            },
+            {
+                id: 'pushups',
+                title: 'How many push-ups can you do at one time?',
+                options: [
+                    { value: 'beginner', title: 'Beginner', sub: '0-5 push-ups', icon: '☝️' },
+                    { value: 'intermediate', title: 'Intermediate', sub: '5-15 push-ups', icon: '✌️' },
+                    { value: 'advanced', title: 'Advanced', sub: 'At least 15+', icon: '👍' }
+                ]
+            }
+        ];
+
+        // --- STATE MANAGEMENT ---
+        let currentStepIndex = 0;
+        let userData = {}; // This object will store all the user's answers
+
+        // --- DOM ELEMENTS ---
+        const titleEl = document.getElementById('question-title');
+        const optionsContainer = document.getElementById('options-container');
+        const nextBtn = document.getElementById('next-btn');
+        const progressFill = document.getElementById('progress');
+
+        // --- CORE FUNCTIONS ---
+        
+        // Renders the current question and its options to the screen
+        function renderStep() {
+            const step = flowSteps[currentStepIndex];
+            
+            // Update Text
+            titleEl.textContent = step.title;
+            
+            // Update Progress Bar
+            const progressPercentage = ((currentStepIndex + 1) / flowSteps.length) * 100;
+            progressFill.style.width = `${progressPercentage}%`;
+
+            // Clear previous options
+            optionsContainer.innerHTML = '';
+
+            // Generate HTML for current options
+            step.options.forEach(option => {
+                const isSelected = userData[step.id] === option.value;
+                
+                const card = document.createElement('div');
+                card.className = `option-card ${isSelected ? 'selected' : ''}`;
+                card.onclick = () => selectOption(step.id, option.value);
+
+                // Build the inner HTML of the card
+                let cardContent = `<div class="card-text">`;
+                cardContent += `<div class="option-title">${option.title}</div>`;
+                if (option.sub) {
+                    cardContent += `<div class="option-sub">${option.sub}</div>`;
+                }
+                cardContent += `</div>`;
+                cardContent += `<div class="option-icon">${option.icon}</div>`;
+                
+                card.innerHTML = cardContent;
+                optionsContainer.appendChild(card);
+            });
+
+            // Enable/Disable Next Button
+            nextBtn.disabled = !userData[step.id];
+        }
+
+        // Handles the user clicking an option
+        function selectOption(stepId, value) {
+            userData[stepId] = value; // Save answer to state
+            renderStep(); // Re-render to show selection highlight
+        }
+
+        // Handles moving forward
+        function nextStep() {
+            if (currentStepIndex < flowSteps.length - 1) {
+                currentStepIndex++;
+                renderStep();
+            } else {
+                finishOnboarding();
+            }
+        }
+
+        // Handles moving backward
+        function prevStep() {
+            if (currentStepIndex > 0) {
+                currentStepIndex--;
+                renderStep();
+            }
+        }
+
+        // Final action when the flow is complete
+        function finishOnboarding() {
+            optionsContainer.innerHTML = `
+                <div style="text-align: center; padding-top: 40px;">
+                    <div style="font-size: 48px; margin-bottom: 20px;">✅</div>
+                    <h2 style="color: var(--text-main); margin-bottom: 10px;">Plan Generating...</h2>
+                    <p style="color: var(--text-muted);">Here is the data we collected:</p>
+                    <pre style="text-align: left; background: #f4f4f5; padding: 10px; margin-top: 20px; border-radius: 8px; font-size: 14px;">${JSON.stringify(userData, null, 2)}</pre>
+                </div>
+            `;
+            titleEl.style.display = 'none';
+            nextBtn.textContent = 'START WORKOUT';
+            nextBtn.onclick = () => alert('Welcome to the Calisthenics App!');
+        }
+
+        // Initialize the app
+        renderStep();
+    </script>
+</body>
+</html>
