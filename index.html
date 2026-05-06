@@ -6,216 +6,80 @@
     <title>Calisthenics App Onboarding</title>
     <style>
         /* =========================================
-           1. CALISTHENICS APP: CORE DESIGN TOKENS
+           1. CORE DESIGN TOKENS
            ========================================= */
         :root {
-            /* Primary Brand Colors */
             --color-primary: #005BFF;
             --color-primary-light: #1A1A1A;
             --color-primary-disabled: #A0C2FF;
-
-            /* Backgrounds */
             --color-bg-base: #000000;
             --color-bg-surface: #1A1A1A;
             --color-bg-subtle: #000000;
-
-            /* Text & Ink */
             --color-text-main: #FFFFFF;
             --color-text-muted: #8E8E93;
             --color-text-inverse: #FFFFFF;
-
-            /* Borders & Lines */
             --color-border-subtle: #E5E5EA;
-            --color-border-strong: #C7C7CC;
-
-            /* Typography Variables */
             --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            --text-h1-size: 28px;
-            --text-h1-weight: 800;
-            --text-body-size: 16px;
-            --text-sub-size: 14px;
-
-            /* Spacing */
-            --space-xs: 4px;
-            --space-sm: 8px;
-            --space-md: 16px;
-            --space-lg: 24px;
-            --space-xl: 32px;
-
-            /* Border Radius & Shadows */
-            --radius-md: 16px;
-            --radius-pill: 9999px;
+            --space-xs: 4px; --space-sm: 8px; --space-md: 16px; --space-lg: 24px; --space-xl: 32px;
+            --radius-sm: 8px; --radius-md: 16px; --radius-pill: 9999px;
             --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         /* =========================================
            2. BASE RESET & TYPOGRAPHY
            ========================================= */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: var(--font-family-base);
-            background-color: var(--color-bg-subtle); /* Gray background outside the app */
-            color: var(--color-text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        h1 {
-            font-size: var(--text-h1-size);
-            font-weight: var(--text-h1-weight);
-            text-align: center;
-            margin-bottom: var(--space-sm);
-        }
-
-        p.subtitle {
-            font-size: var(--text-body-size);
-            color: var(--color-text-muted);
-            text-align: center;
-            margin-bottom: var(--space-xl);
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { font-family: var(--font-family-base); background-color: var(--color-bg-subtle); color: var(--color-text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+        h1 { font-size: 28px; font-weight: 800; text-align: center; margin-bottom: var(--space-sm); }
+        h3 { font-size: 18px; font-weight: 700; margin-bottom: var(--space-sm); color: var(--color-text-main); }
+        p.subtitle { font-size: 16px; color: var(--color-text-muted); text-align: center; margin-bottom: var(--space-xl); }
 
         /* =========================================
-           3. APP LAYOUT (MOBILE CONTAINER FOR WEB)
+           3. APP LAYOUT
            ========================================= */
-        #app-container {
-            width: 100%;
-            max-width: 400px;
-            height: 100vh;
-            max-height: 850px;
-            background-color: var(--color-bg-base);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            padding: var(--space-lg);
-            box-shadow: var(--shadow-sm);
-            overflow-y: auto;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--space-xl);
-            margin-top: var(--space-sm);
-        }
-
-        .icon-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--color-text-main);
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .skip-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: var(--text-body-size);
-            color: var(--color-text-muted);
-        }
-
-        #options-container {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .footer {
-            margin-top: auto;
-            padding-top: var(--space-lg);
-            padding-bottom: var(--space-md);
-        }
+        #app-container { width: 100%; max-width: 400px; height: 100vh; max-height: 850px; background-color: var(--color-bg-base); position: relative; display: flex; flex-direction: column; padding: var(--space-lg); box-shadow: var(--shadow-sm); overflow-y: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xl); margin-top: var(--space-sm); }
+        .icon-btn, .skip-btn { background: none; border: none; cursor: pointer; }
+        .icon-btn { color: var(--color-text-main); font-size: 24px; font-weight: bold; }
+        .skip-btn { font-size: 16px; color: var(--color-text-muted); }
+        #options-container { flex-grow: 1; display: flex; flex-direction: column; gap: var(--space-md); }
+        .footer { margin-top: auto; padding-top: var(--space-lg); padding-bottom: var(--space-md); }
 
         /* =========================================
-           4. COMPONENT LIBRARY (UI KIT)
+           4. COMPONENT LIBRARY
            ========================================= */
-        
         /* Buttons */
-        .btn-primary {
-            display: block;
-            width: 100%;
-            padding: 18px var(--space-lg);
-            background-color: var(--color-primary);
-            color: var(--color-text-inverse);
-            font-size: var(--text-body-size);
-            font-weight: 700;
-            text-align: center;
-            border: none;
-            border-radius: var(--radius-pill);
-            cursor: pointer;
-            transition: background-color 0.2s ease, transform 0.1s ease;
-        }
+        .btn-primary { width: 100%; padding: 18px var(--space-lg); background-color: var(--color-primary); color: var(--color-text-inverse); font-size: 16px; font-weight: 700; text-align: center; border: none; border-radius: var(--radius-pill); cursor: pointer; transition: 0.2s; }
+        .btn-primary:active:not(:disabled) { transform: scale(0.98); }
+        .btn-primary:disabled { background-color: var(--color-primary-disabled); cursor: not-allowed; }
 
-        .btn-primary:active:not(:disabled) {
-            transform: scale(0.98);
-        }
-
-        .btn-primary:disabled {
-            background-color: var(--color-primary-disabled);
-            cursor: not-allowed;
-        }
-
-        /* Selection Cards */
-        .card-option {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: var(--space-lg);
-            background-color: var(--color-bg-surface);
-            border: 2px solid var(--color-border-subtle);
-            border-radius: var(--radius-md);
-            margin-bottom: var(--space-md);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .card-option:hover {
-            border-color: var(--color-primary-disabled);
-        }
-
-        .card-option.is-selected {
-            border-color: var(--color-primary);
-            background-color: var(--color-primary-light);
-        }
-
-        .card-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--color-text-main);
-        }
-
-        .card-sub {
-            font-size: var(--text-sub-size);
-            color: var(--color-text-muted);
-            margin-top: var(--space-xs);
-        }
+        /* Cards */
+        .card-option { display: flex; align-items: center; justify-content: space-between; padding: var(--space-lg); background-color: var(--color-bg-surface); border: 2px solid var(--color-border-subtle); border-radius: var(--radius-md); cursor: pointer; transition: 0.2s; }
+        .card-option.is-selected { border-color: var(--color-primary); background-color: var(--color-primary-light); }
+        .card-title { font-size: 18px; font-weight: 700; }
+        .card-sub { font-size: 14px; color: var(--color-text-muted); margin-top: var(--space-xs); }
 
         /* Progress Bar */
-        .progress-track {
-            width: 50%;
-            height: 4px;
-            background-color: var(--color-border-subtle);
-            border-radius: var(--radius-pill);
-            overflow: hidden;
-        }
+        .progress-track { width: 50%; height: 4px; background-color: var(--color-border-subtle); border-radius: var(--radius-pill); overflow: hidden; }
+        .progress-fill { height: 100%; background-color: var(--color-primary); width: 0%; transition: width 0.3s ease-out; }
 
-        .progress-fill {
-            height: 100%;
-            background-color: var(--color-primary);
-            width: 0%;
-            transition: width 0.3s ease-out;
-        }
+        /* --- NEW: Custom Input UI (Metrics & Schedule) --- */
+        .metrics-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xl); border-bottom: 1px solid var(--color-border-subtle); padding-bottom: var(--space-md); }
+        
+        .toggle-group { display: flex; background-color: var(--color-bg-subtle); border-radius: var(--radius-pill); padding: 4px; }
+        .toggle-btn { flex: 1; padding: 6px 16px; border: none; background: transparent; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; color: var(--color-text-muted); cursor: pointer; }
+        .toggle-btn.active { background-color: var(--color-primary); color: var(--color-text-inverse); }
+
+        .big-input { border: none; font-size: 48px; font-weight: 800; color: var(--color-primary); width: 100px; text-align: center; outline: none; background: transparent; }
+        .big-input::placeholder { color: var(--color-border-subtle); }
+        
+        /* Grid for days */
+        .days-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: var(--space-xl); }
+        .day-btn { padding: 16px 0; border: 2px solid var(--color-border-subtle); border-radius: var(--radius-md); font-size: 20px; font-weight: 700; background: var(--color-bg-surface); cursor: pointer; }
+        .day-btn.active { border-color: var(--color-primary); background-color: var(--color-primary); color: white; }
+
+        /* Select Dropdown */
+        .custom-select { width: 100%; padding: 16px; border: 2px solid var(--color-border-subtle); border-radius: var(--radius-md); font-size: 16px; font-weight: 600; background-color: var(--color-bg-surface); outline: none; }
     </style>
 </head>
 <body>
@@ -223,9 +87,7 @@
     <div id="app-container">
         <div class="header">
             <button class="icon-btn" onclick="prevStep()">←</button>
-            <div class="progress-track">
-                <div class="progress-fill" id="progress"></div>
-            </div>
+            <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
             <button class="skip-btn" onclick="nextStep()">Skip</button>
         </div>
 
@@ -241,53 +103,25 @@
 
     <script>
         // --- DATA STRUCTURE ---
-        // Notice I added 'subtitle' to match the design system
+        // Notice the new 'type' property for the custom screens
         const flowSteps = [
-            {
-                id: 'gender',
-                title: 'What\'s your gender?',
-                subtitle: 'Let us know you better',
-                options: [
-                    { value: 'male', title: 'Male', icon: '👨' },
-                    { value: 'female', title: 'Female', icon: '👩' }
-                ]
-            },
-            {
-                id: 'goals',
-                title: 'What are your main goals?',
-                subtitle: 'Let us tailor your calisthenics journey',
-                options: [
-                    { value: 'skills', title: 'Learn Skills', sub: 'Handstands, Muscle-ups', icon: '🤸' },
-                    { value: 'muscle', title: 'Build Muscle', sub: 'Hypertrophy & Strength', icon: '💪' },
-                    { value: 'shred', title: 'Get Shredded', sub: 'Lose fat, reveal abs', icon: '🔥' }
-                ]
-            },
-            {
-                id: 'focus',
-                title: 'Please choose your focus area',
-                subtitle: 'Target specific muscle groups',
-                options: [
-                    { value: 'full_body', title: 'Full Body', icon: '🧍' },
-                    { value: 'upper', title: 'Upper Body', sub: 'Arms & Chest', icon: '🦍' },
-                    { value: 'core', title: 'Core', sub: 'Abs & Levers', icon: '🍫' },
-                    { value: 'legs', title: 'Legs', sub: 'Pistol squats & Jumps', icon: '🦵' }
-                ]
-            },
-            {
-                id: 'pushups',
-                title: 'How many push-ups can you do?',
-                subtitle: 'To determine your baseline strength',
-                options: [
-                    { value: 'beginner', title: 'Beginner', sub: '0-5 push-ups', icon: '☝️' },
-                    { value: 'intermediate', title: 'Intermediate', sub: '5-15 push-ups', icon: '✌️' },
-                    { value: 'advanced', title: 'Advanced', sub: 'At least 15+', icon: '👍' }
-                ]
-            }
+            { id: 'gender', type: 'options', title: 'What\'s your gender?', subtitle: 'Let us know you better', options: [{ value: 'male', title: 'Male', icon: '👨' }, { value: 'female', title: 'Female', icon: '👩' }] },
+            { id: 'goals', type: 'options', title: 'What are your main goals?', subtitle: 'Let us tailor your calisthenics journey', options: [{ value: 'skills', title: 'Learn Skills', sub: 'Handstands, Muscle-ups', icon: '🤸' }, { value: 'muscle', title: 'Build Muscle', sub: 'Hypertrophy & Strength', icon: '💪' }, { value: 'shred', title: 'Get Shredded', sub: 'Lose fat, reveal abs', icon: '🔥' }] },
+            { id: 'focus', type: 'options', title: 'Please choose your focus area', subtitle: 'Target specific muscle groups', options: [{ value: 'full_body', title: 'Full Body', icon: '🧍' }, { value: 'upper', title: 'Upper Body', sub: 'Arms & Chest', icon: '🦍' }, { value: 'core', title: 'Core', sub: 'Abs & Levers', icon: '🍫' }, { value: 'legs', title: 'Legs', sub: 'Pistol squats & Jumps', icon: '🦵' }] },
+            { id: 'pushups', type: 'options', title: 'How many push-ups can you do?', subtitle: 'To determine your baseline strength', options: [{ value: 'beginner', title: 'Beginner', sub: '0-5 push-ups', icon: '☝️' }, { value: 'intermediate', title: 'Intermediate', sub: '5-15 push-ups', icon: '✌️' }, { value: 'advanced', title: 'Advanced', sub: 'At least 15+', icon: '👍' }] },
+            
+            // --- NEW STEPS ADDED HERE ---
+            { id: 'metrics', type: 'metrics', title: 'Let us know you better', subtitle: 'Let us know you better to help boost your workout results' },
+            { id: 'schedule', type: 'schedule', title: 'Set your weekly goal', subtitle: 'We recommend training at least 3 days weekly for a better result.' }
         ];
 
         // --- STATE MANAGEMENT ---
         let currentStepIndex = 0;
-        let userData = {}; 
+        let userData = {
+            // Default sub-states for the complex forms
+            metrics: { weight: '', weightUnit: 'kg', height: '', heightUnit: 'cm' },
+            schedule: { days: null, startDay: 'SUNDAY' }
+        }; 
 
         // --- DOM ELEMENTS ---
         const titleEl = document.getElementById('question-title');
@@ -300,47 +134,102 @@
         function renderStep() {
             const step = flowSteps[currentStepIndex];
             
-            // Update Text
             titleEl.textContent = step.title;
             subtitleEl.textContent = step.subtitle || '';
             
-            // Update Progress Bar
             const progressPercentage = ((currentStepIndex + 1) / flowSteps.length) * 100;
             progressFill.style.width = `${progressPercentage}%`;
-
-            // Clear previous options
             optionsContainer.innerHTML = '';
 
-            // Generate HTML using the Design System Component Classes
+            // Render Logic based on Step "Type"
+            if (step.type === 'options') {
+                renderOptions(step);
+            } else if (step.type === 'metrics') {
+                renderMetrics();
+            } else if (step.type === 'schedule') {
+                renderSchedule();
+            }
+        }
+
+        // 1. Renderer for standard options (Cards)
+        function renderOptions(step) {
             step.options.forEach(option => {
                 const isSelected = userData[step.id] === option.value;
-                
                 const card = document.createElement('div');
-                // Using .card-option and .is-selected from the UI Kit
                 card.className = `card-option ${isSelected ? 'is-selected' : ''}`;
-                card.onclick = () => selectOption(step.id, option.value);
-
-                let cardContent = `<div>`;
-                cardContent += `<div class="card-title">${option.title}</div>`;
-                if (option.sub) {
-                    cardContent += `<div class="card-sub">${option.sub}</div>`;
-                }
-                cardContent += `</div>`;
-                cardContent += `<div style="font-size: 32px;">${option.icon}</div>`;
+                card.onclick = () => { userData[step.id] = option.value; renderStep(); };
                 
-                card.innerHTML = cardContent;
+                card.innerHTML = `<div><div class="card-title">${option.title}</div>${option.sub ? `<div class="card-sub">${option.sub}</div>` : ''}</div><div style="font-size: 32px;">${option.icon}</div>`;
                 optionsContainer.appendChild(card);
             });
-
-            // Enable/Disable Next Button
             nextBtn.disabled = !userData[step.id];
         }
 
-        function selectOption(stepId, value) {
-            userData[stepId] = value; 
-            renderStep(); 
+        // 2. Renderer for Body Metrics
+        function renderMetrics() {
+            const m = userData.metrics;
+            optionsContainer.innerHTML = `
+                <div class="metrics-row">
+                    <h3>Weight</h3>
+                    <div class="toggle-group">
+                        <button class="toggle-btn ${m.weightUnit === 'kg' ? 'active' : ''}" onclick="updateMetric('weightUnit', 'kg')">kg</button>
+                        <button class="toggle-btn ${m.weightUnit === 'lbs' ? 'active' : ''}" onclick="updateMetric('weightUnit', 'lbs')">lbs</button>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <input type="number" class="big-input" placeholder="00.0" value="${m.weight}" oninput="updateMetric('weight', this.value)">
+                    <span style="color: var(--color-text-muted); font-weight: 600;">${m.weightUnit}</span>
+                </div>
+
+                <div class="metrics-row">
+                    <h3>Height</h3>
+                    <div class="toggle-group">
+                        <button class="toggle-btn ${m.heightUnit === 'cm' ? 'active' : ''}" onclick="updateMetric('heightUnit', 'cm')">cm</button>
+                        <button class="toggle-btn ${m.heightUnit === 'ft' ? 'active' : ''}" onclick="updateMetric('heightUnit', 'ft')">ft</button>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <input type="number" class="big-input" placeholder="000" value="${m.height}" oninput="updateMetric('height', this.value)">
+                    <span style="color: var(--color-text-muted); font-weight: 600;">${m.heightUnit}</span>
+                </div>
+            `;
+            // Enable next only if both fields have a value
+            nextBtn.disabled = !(m.weight && m.height);
         }
 
+        function updateMetric(key, value) {
+            userData.metrics[key] = value;
+            if (key.includes('Unit')) renderStep(); // Only re-render full UI if unit changed
+            else nextBtn.disabled = !(userData.metrics.weight && userData.metrics.height); // otherwise just check validation
+        }
+
+        // 3. Renderer for Weekly Schedule
+        function renderSchedule() {
+            const s = userData.schedule;
+            let daysHtml = '<div class="days-grid">';
+            for(let i=1; i<=7; i++) {
+                daysHtml += `<button class="day-btn ${s.days === i ? 'active' : ''}" onclick="updateSchedule('days', ${i})">${i}</button>`;
+            }
+            daysHtml += '</div>';
+
+            optionsContainer.innerHTML = `
+                <div style="text-align: center; margin-bottom: var(--space-md); font-weight: 600;">🎯 Weekly training days</div>
+                ${daysHtml}
+                <div style="text-align: center; margin-bottom: var(--space-sm); color: var(--color-text-muted); font-size: 14px; margin-top: 20px;">📅 First day of week</div>
+                <select class="custom-select" onchange="updateSchedule('startDay', this.value)">
+                    <option value="SUNDAY" ${s.startDay === 'SUNDAY' ? 'selected' : ''}>SUNDAY</option>
+                    <option value="MONDAY" ${s.startDay === 'MONDAY' ? 'selected' : ''}>MONDAY</option>
+                </select>
+            `;
+            nextBtn.disabled = !s.days;
+        }
+
+        function updateSchedule(key, value) {
+            userData.schedule[key] = value;
+            renderStep();
+        }
+
+        // Navigation Logic
         function nextStep() {
             if (currentStepIndex < flowSteps.length - 1) {
                 currentStepIndex++;
@@ -363,17 +252,17 @@
                     <div style="font-size: 48px; margin-bottom: 20px;">✅</div>
                     <h2 style="color: var(--color-text-main); margin-bottom: 10px;">Plan Generating...</h2>
                     <p style="color: var(--color-text-muted);">Data payload ready for backend:</p>
-                    <pre style="text-align: left; background: var(--color-bg-subtle); padding: 16px; margin-top: 20px; border-radius: 8px; font-size: 14px;">${JSON.stringify(userData, null, 2)}</pre>
+                    <pre style="text-align: left; background: var(--color-bg-subtle); padding: 16px; margin-top: 20px; border-radius: 8px; font-size: 14px; overflow-x: auto;">${JSON.stringify(userData, null, 2)}</pre>
                 </div>
             `;
             titleEl.style.display = 'none';
             subtitleEl.style.display = 'none';
-            nextBtn.textContent = 'START WORKOUT';
+            nextBtn.textContent = 'GET MY PLAN';
             nextBtn.disabled = false;
             nextBtn.onclick = () => alert('Transitioning to main app dashboard!');
         }
 
-        // Initialize the app on load
+        // Initialize the app
         renderStep();
     </script>
 </body>
