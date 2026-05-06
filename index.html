@@ -5,161 +5,216 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calisthenics App Onboarding</title>
     <style>
-        /* CSS Reset & Variables */
+        /* =========================================
+           1. CALISTHENICS APP: CORE DESIGN TOKENS
+           ========================================= */
         :root {
-            --primary: #005BFF;
-            --primary-light: #A0C2FF;
-            --bg: #FFFFFF;
-            --text-main: #1A1A1A;
-            --text-muted: #8E8E93;
-            --border: #E5E5EA;
+            /* Primary Brand Colors */
+            --color-primary: #005BFF;
+            --color-primary-light: #E5EFFF;
+            --color-primary-disabled: #A0C2FF;
+
+            /* Backgrounds */
+            --color-bg-base: #FFFFFF;
+            --color-bg-surface: #FFFFFF;
+            --color-bg-subtle: #F4F4F5;
+
+            /* Text & Ink */
+            --color-text-main: #1A1A1A;
+            --color-text-muted: #8E8E93;
+            --color-text-inverse: #FFFFFF;
+
+            /* Borders & Lines */
+            --color-border-subtle: #E5E5EA;
+            --color-border-strong: #C7C7CC;
+
+            /* Typography Variables */
+            --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --text-h1-size: 28px;
+            --text-h1-weight: 800;
+            --text-body-size: 16px;
+            --text-sub-size: 14px;
+
+            /* Spacing */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+
+            /* Border Radius & Shadows */
+            --radius-md: 16px;
+            --radius-pill: 9999px;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
+        /* =========================================
+           2. BASE RESET & TYPOGRAPHY
+           ========================================= */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: var(--bg);
+            font-family: var(--font-family-base);
+            background-color: var(--color-bg-subtle); /* Gray background outside the app */
+            color: var(--color-text-main);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Mobile-sized container for the web */
+        h1 {
+            font-size: var(--text-h1-size);
+            font-weight: var(--text-h1-weight);
+            text-align: center;
+            margin-bottom: var(--space-sm);
+        }
+
+        p.subtitle {
+            font-size: var(--text-body-size);
+            color: var(--color-text-muted);
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        /* =========================================
+           3. APP LAYOUT (MOBILE CONTAINER FOR WEB)
+           ========================================= */
         #app-container {
             width: 100%;
             max-width: 400px;
             height: 100vh;
-            max-height: 800px;
+            max-height: 850px;
+            background-color: var(--color-bg-base);
             position: relative;
             display: flex;
             flex-direction: column;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            overflow: hidden;
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-sm);
+            overflow-y: auto;
         }
 
-        /* Header & Progress Bar */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 40px;
-            margin-top: 20px;
+            margin-bottom: var(--space-xl);
+            margin-top: var(--space-sm);
         }
 
-        .back-btn {
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-main);
-            border: none;
+        .icon-btn {
             background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--color-text-main);
+            font-size: 24px;
+            font-weight: bold;
         }
 
         .skip-btn {
-            font-size: 16px;
-            color: var(--text-muted);
-            cursor: pointer;
-            border: none;
             background: none;
+            border: none;
+            cursor: pointer;
+            font-size: var(--text-body-size);
+            color: var(--color-text-muted);
         }
 
-        .progress-bar-container {
-            width: 50%;
-            height: 4px;
-            background-color: var(--border);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            background-color: var(--primary);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        /* Typography */
-        h1 {
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--text-main);
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        /* Options List */
         #options-container {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: 16px;
         }
 
-        .option-card {
+        .footer {
+            margin-top: auto;
+            padding-top: var(--space-lg);
+            padding-bottom: var(--space-md);
+        }
+
+        /* =========================================
+           4. COMPONENT LIBRARY (UI KIT)
+           ========================================= */
+        
+        /* Buttons */
+        .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 18px var(--space-lg);
+            background-color: var(--color-primary);
+            color: var(--color-text-inverse);
+            font-size: var(--text-body-size);
+            font-weight: 700;
+            text-align: center;
+            border: none;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .btn-primary:active:not(:disabled) {
+            transform: scale(0.98);
+        }
+
+        .btn-primary:disabled {
+            background-color: var(--color-primary-disabled);
+            cursor: not-allowed;
+        }
+
+        /* Selection Cards */
+        .card-option {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 20px;
-            border: 2px solid var(--border);
-            border-radius: 16px;
+            padding: var(--space-lg);
+            background-color: var(--color-bg-surface);
+            border: 2px solid var(--color-border-subtle);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-md);
             cursor: pointer;
             transition: all 0.2s ease;
-            background: #fff;
+            box-shadow: var(--shadow-sm);
         }
 
-        .option-card:hover {
-            border-color: var(--primary-light);
+        .card-option:hover {
+            border-color: var(--color-primary-disabled);
         }
 
-        .option-card.selected {
-            border-color: var(--primary);
-            background-color: rgba(0, 91, 255, 0.05);
+        .card-option.is-selected {
+            border-color: var(--color-primary);
+            background-color: var(--color-primary-light);
         }
 
-        .option-title {
+        .card-title {
             font-size: 18px;
             font-weight: 700;
-            color: var(--text-main);
+            color: var(--color-text-main);
         }
 
-        .option-sub {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-top: 4px;
+        .card-sub {
+            font-size: var(--text-sub-size);
+            color: var(--color-text-muted);
+            margin-top: var(--space-xs);
         }
 
-        .option-icon {
-            font-size: 32px;
+        /* Progress Bar */
+        .progress-track {
+            width: 50%;
+            height: 4px;
+            background-color: var(--color-border-subtle);
+            border-radius: var(--radius-pill);
+            overflow: hidden;
         }
 
-        /* Footer & Button */
-        .footer {
-            margin-top: auto;
-            padding-bottom: 20px;
-        }
-
-        .next-btn {
-            width: 100%;
-            padding: 18px;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .next-btn:disabled {
-            background-color: var(--primary-light);
-            cursor: not-allowed;
+        .progress-fill {
+            height: 100%;
+            background-color: var(--color-primary);
+            width: 0%;
+            transition: width 0.3s ease-out;
         }
     </style>
 </head>
@@ -167,30 +222,31 @@
 
     <div id="app-container">
         <div class="header">
-            <button class="back-btn" onclick="prevStep()">←</button>
-            <div class="progress-bar-container">
-                <div class="progress-bar-fill" id="progress"></div>
+            <button class="icon-btn" onclick="prevStep()">←</button>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress"></div>
             </div>
             <button class="skip-btn" onclick="nextStep()">Skip</button>
         </div>
 
         <h1 id="question-title">Loading...</h1>
+        <p class="subtitle" id="question-subtitle"></p>
 
-        <div id="options-container">
-            </div>
+        <div id="options-container"></div>
 
         <div class="footer">
-            <button class="next-btn" id="next-btn" onclick="nextStep()" disabled>NEXT</button>
+            <button class="btn-primary" id="next-btn" onclick="nextStep()" disabled>NEXT</button>
         </div>
     </div>
 
     <script>
         // --- DATA STRUCTURE ---
-        // This array defines the entire flow. You can easily add more steps here.
+        // Notice I added 'subtitle' to match the design system
         const flowSteps = [
             {
                 id: 'gender',
                 title: 'What\'s your gender?',
+                subtitle: 'Let us know you better',
                 options: [
                     { value: 'male', title: 'Male', icon: '👨' },
                     { value: 'female', title: 'Female', icon: '👩' }
@@ -199,6 +255,7 @@
             {
                 id: 'goals',
                 title: 'What are your main goals?',
+                subtitle: 'Let us tailor your calisthenics journey',
                 options: [
                     { value: 'skills', title: 'Learn Skills', sub: 'Handstands, Muscle-ups', icon: '🤸' },
                     { value: 'muscle', title: 'Build Muscle', sub: 'Hypertrophy & Strength', icon: '💪' },
@@ -208,16 +265,18 @@
             {
                 id: 'focus',
                 title: 'Please choose your focus area',
+                subtitle: 'Target specific muscle groups',
                 options: [
                     { value: 'full_body', title: 'Full Body', icon: '🧍' },
-                    { value: 'upper', title: 'Upper Body (Arms & Chest)', icon: '🦍' },
-                    { value: 'core', title: 'Core (Abs & Levers)', icon: '🍫' },
-                    { value: 'legs', title: 'Legs', icon: '🦵' }
+                    { value: 'upper', title: 'Upper Body', sub: 'Arms & Chest', icon: '🦍' },
+                    { value: 'core', title: 'Core', sub: 'Abs & Levers', icon: '🍫' },
+                    { value: 'legs', title: 'Legs', sub: 'Pistol squats & Jumps', icon: '🦵' }
                 ]
             },
             {
                 id: 'pushups',
-                title: 'How many push-ups can you do at one time?',
+                title: 'How many push-ups can you do?',
+                subtitle: 'To determine your baseline strength',
                 options: [
                     { value: 'beginner', title: 'Beginner', sub: '0-5 push-ups', icon: '☝️' },
                     { value: 'intermediate', title: 'Intermediate', sub: '5-15 push-ups', icon: '✌️' },
@@ -228,22 +287,22 @@
 
         // --- STATE MANAGEMENT ---
         let currentStepIndex = 0;
-        let userData = {}; // This object will store all the user's answers
+        let userData = {}; 
 
         // --- DOM ELEMENTS ---
         const titleEl = document.getElementById('question-title');
+        const subtitleEl = document.getElementById('question-subtitle');
         const optionsContainer = document.getElementById('options-container');
         const nextBtn = document.getElementById('next-btn');
         const progressFill = document.getElementById('progress');
 
         // --- CORE FUNCTIONS ---
-        
-        // Renders the current question and its options to the screen
         function renderStep() {
             const step = flowSteps[currentStepIndex];
             
             // Update Text
             titleEl.textContent = step.title;
+            subtitleEl.textContent = step.subtitle || '';
             
             // Update Progress Bar
             const progressPercentage = ((currentStepIndex + 1) / flowSteps.length) * 100;
@@ -252,22 +311,22 @@
             // Clear previous options
             optionsContainer.innerHTML = '';
 
-            // Generate HTML for current options
+            // Generate HTML using the Design System Component Classes
             step.options.forEach(option => {
                 const isSelected = userData[step.id] === option.value;
                 
                 const card = document.createElement('div');
-                card.className = `option-card ${isSelected ? 'selected' : ''}`;
+                // Using .card-option and .is-selected from the UI Kit
+                card.className = `card-option ${isSelected ? 'is-selected' : ''}`;
                 card.onclick = () => selectOption(step.id, option.value);
 
-                // Build the inner HTML of the card
-                let cardContent = `<div class="card-text">`;
-                cardContent += `<div class="option-title">${option.title}</div>`;
+                let cardContent = `<div>`;
+                cardContent += `<div class="card-title">${option.title}</div>`;
                 if (option.sub) {
-                    cardContent += `<div class="option-sub">${option.sub}</div>`;
+                    cardContent += `<div class="card-sub">${option.sub}</div>`;
                 }
                 cardContent += `</div>`;
-                cardContent += `<div class="option-icon">${option.icon}</div>`;
+                cardContent += `<div style="font-size: 32px;">${option.icon}</div>`;
                 
                 card.innerHTML = cardContent;
                 optionsContainer.appendChild(card);
@@ -277,13 +336,11 @@
             nextBtn.disabled = !userData[step.id];
         }
 
-        // Handles the user clicking an option
         function selectOption(stepId, value) {
-            userData[stepId] = value; // Save answer to state
-            renderStep(); // Re-render to show selection highlight
+            userData[stepId] = value; 
+            renderStep(); 
         }
 
-        // Handles moving forward
         function nextStep() {
             if (currentStepIndex < flowSteps.length - 1) {
                 currentStepIndex++;
@@ -293,7 +350,6 @@
             }
         }
 
-        // Handles moving backward
         function prevStep() {
             if (currentStepIndex > 0) {
                 currentStepIndex--;
@@ -301,22 +357,23 @@
             }
         }
 
-        // Final action when the flow is complete
         function finishOnboarding() {
             optionsContainer.innerHTML = `
                 <div style="text-align: center; padding-top: 40px;">
                     <div style="font-size: 48px; margin-bottom: 20px;">✅</div>
-                    <h2 style="color: var(--text-main); margin-bottom: 10px;">Plan Generating...</h2>
-                    <p style="color: var(--text-muted);">Here is the data we collected:</p>
-                    <pre style="text-align: left; background: #f4f4f5; padding: 10px; margin-top: 20px; border-radius: 8px; font-size: 14px;">${JSON.stringify(userData, null, 2)}</pre>
+                    <h2 style="color: var(--color-text-main); margin-bottom: 10px;">Plan Generating...</h2>
+                    <p style="color: var(--color-text-muted);">Data payload ready for backend:</p>
+                    <pre style="text-align: left; background: var(--color-bg-subtle); padding: 16px; margin-top: 20px; border-radius: 8px; font-size: 14px;">${JSON.stringify(userData, null, 2)}</pre>
                 </div>
             `;
             titleEl.style.display = 'none';
+            subtitleEl.style.display = 'none';
             nextBtn.textContent = 'START WORKOUT';
-            nextBtn.onclick = () => alert('Welcome to the Calisthenics App!');
+            nextBtn.disabled = false;
+            nextBtn.onclick = () => alert('Transitioning to main app dashboard!');
         }
 
-        // Initialize the app
+        // Initialize the app on load
         renderStep();
     </script>
 </body>
