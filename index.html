@@ -90,27 +90,29 @@
             background-color: #1A1A1A; /* Change this for the background color */
             color: #FFFFFF; /* Change this for the number color */
         }
-
-        /* Select Dropdown */
-        /* Select Dropdown */
+        
+        /* 1. WHEN NOT TAPPED (Default State) */
         .custom-select { 
             width: 100%; 
             padding: 16px; 
-            border: 2px solid var(--color-border-subtle); 
             border-radius: var(--radius-md); 
             font-size: 16px; 
             font-weight: 600; 
-            background-color: var(--color-bg-surface); 
             outline: none; 
-            
-            /* ADD THIS to change the color of the selected text */
-            color: #FFFFFF; 
+
+            /* Your colors for when it's just sitting there */
+            background-color: #1A1A1A; 
+            border: 2px solid #555555; 
+            color: #FFFFFF;            
         }
 
-        /* ADD THIS ENTIRE BLOCK to change the colors in the dropdown menu itself */
-        .custom-select option {
-            color: #FFFFFF; /* Change this hex code for the text color */
-            background-color: #1A1A1A; /* Change this hex code for the background color of the options */
+        /* 2. WHEN TAPPED (Focus State) */
+        .custom-select:focus {
+            /* This stops the browser from adding an ugly default outline */
+            outline: none; 
+            
+            /* You can make it light up or change border color when tapped! */
+            border: 2px solid #005BFF; /* Example: turns the border blue when actively tapping/selecting */
         }
     </style>
 </head>
