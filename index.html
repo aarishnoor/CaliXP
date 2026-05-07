@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calisthenics App Onboarding</title>
+    <title>Calisthenics App Onboarding & Dashboard</title>
     <style>
         /* =========================================
            1. CORE DESIGN TOKENS
@@ -18,7 +18,7 @@
             --color-text-main: #FFFFFF;
             --color-text-muted: #8E8E93;
             --color-text-inverse: #FFFFFF;
-            --color-border-subtle: #E5E5EA;
+            --color-border-subtle: #333333;
             --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             --space-xs: 4px; --space-sm: 8px; --space-md: 16px; --space-lg: 24px; --space-xl: 32px;
             --radius-sm: 8px; --radius-md: 16px; --radius-pill: 9999px;
@@ -37,7 +37,7 @@
         /* =========================================
            3. APP LAYOUT
            ========================================= */
-        #app-container { width: 100%; max-width: 400px; height: 100vh; max-height: 850px; background-color: var(--color-bg-base); position: relative; display: flex; flex-direction: column; padding: var(--space-lg); box-shadow: var(--shadow-sm); overflow-y: auto; }
+        #app-container { width: 100%; max-width: 400px; height: 100vh; max-height: 850px; background-color: var(--color-bg-base); position: relative; display: flex; flex-direction: column; padding: var(--space-lg); box-shadow: var(--shadow-sm); overflow-y: auto; overflow-x: hidden; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xl); margin-top: var(--space-sm); }
         .icon-btn, .skip-btn { background: none; border: none; cursor: pointer; }
         .icon-btn { color: var(--color-text-main); font-size: 24px; font-weight: bold; }
@@ -46,80 +46,80 @@
         .footer { margin-top: auto; padding-top: var(--space-lg); padding-bottom: var(--space-md); }
 
         /* =========================================
-           4. COMPONENT LIBRARY
+           4. COMPONENT LIBRARY (ONBOARDING)
            ========================================= */
-        /* Buttons */
         .btn-primary { width: 100%; padding: 18px var(--space-lg); background-color: var(--color-primary); color: var(--color-text-inverse); font-size: 16px; font-weight: 700; text-align: center; border: none; border-radius: var(--radius-pill); cursor: pointer; transition: 0.2s; }
         .btn-primary:active:not(:disabled) { transform: scale(0.98); }
         .btn-primary:disabled { background-color: var(--color-primary-disabled); cursor: not-allowed; }
 
-        /* Cards */
         .card-option { display: flex; align-items: center; justify-content: space-between; padding: var(--space-lg); background-color: var(--color-bg-surface); border: 2px solid var(--color-border-subtle); border-radius: var(--radius-md); cursor: pointer; transition: 0.2s; }
         .card-option.is-selected { border-color: var(--color-primary); background-color: var(--color-primary-light); }
         .card-title { font-size: 18px; font-weight: 700; }
         .card-sub { font-size: 14px; color: var(--color-text-muted); margin-top: var(--space-xs); }
 
-        /* Progress Bar */
         .progress-track { width: 50%; height: 4px; background-color: var(--color-border-subtle); border-radius: var(--radius-pill); overflow: hidden; }
         .progress-fill { height: 100%; background-color: var(--color-primary); width: 0%; transition: width 0.3s ease-out; }
 
-        /* --- NEW: Custom Input UI (Metrics & Schedule) --- */
         .metrics-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xl); border-bottom: 1px solid var(--color-border-subtle); padding-bottom: var(--space-md); }
-        
-        .toggle-group { display: flex; background-color: var(--color-bg-subtle); border-radius: var(--radius-pill); padding: 4px; }
+        .toggle-group { display: flex; background-color: var(--color-bg-surface); border-radius: var(--radius-pill); padding: 4px; border: 1px solid var(--color-border-subtle); }
         .toggle-btn { flex: 1; padding: 6px 16px; border: none; background: transparent; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; color: var(--color-text-muted); cursor: pointer; }
         .toggle-btn.active { background-color: var(--color-primary); color: var(--color-text-inverse); }
 
         .big-input { border: none; font-size: 48px; font-weight: 800; color: var(--color-primary); width: 100px; text-align: center; outline: none; background: transparent; }
         .big-input::placeholder { color: var(--color-border-subtle); }
         
-        /* Grid for days */
         .days-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: var(--space-xl); }
-        .day-btn { 
-            padding: 16px 0; 
-            border: 2px solid var(--color-border-subtle); 
-            border-radius: var(--radius-md); 
-            font-size: 20px; 
-            font-weight: 700; 
-            background-color: #1A1A1A; /* Change this hex code for the background */
-            color: #FFFFFF; /* Change this hex code for the number color */
-            cursor: pointer; 
-        }
-        .day-btn.active { 
-            border-color: #005BFF; /* Change this for the border color */
-            background-color: #1A1A1A; /* Change this for the background color */
-            color: #FFFFFF; /* Change this for the number color */
-        }
+        .day-btn { padding: 16px 0; border: 2px solid var(--color-border-subtle); border-radius: var(--radius-md); font-size: 20px; font-weight: 700; background-color: #1A1A1A; color: #FFFFFF; cursor: pointer; }
+        .day-btn.active { border-color: #005BFF; background-color: #1A1A1A; color: #FFFFFF; }
         
-        /* 1. WHEN NOT TAPPED (Default State) */
-        .custom-select { 
-            width: 100%; 
-            padding: 16px; 
-            border-radius: var(--radius-md); 
-            font-size: 16px; 
-            font-weight: 600; 
-            outline: none; 
+        .custom-select { width: 100%; padding: 16px; border-radius: var(--radius-md); font-size: 16px; font-weight: 600; outline: none; background-color: #1A1A1A; border: 2px solid #333333; color: #FFFFFF; }
+        .custom-select:focus { outline: none; border: 2px solid #005BFF; }
 
-            /* Your colors for when it's just sitting there */
-            background-color: #1A1A1A; 
-            border: 2px solid #005BFF; 
-            color: #FFFFFF;            
-        }
-
-        /* 2. WHEN TAPPED (Focus State) */
-        .custom-select:focus {
-            /* This stops the browser from adding an ugly default outline */
-            outline: none; 
-            
-            /* You can make it light up or change border color when tapped! */
-            border: 2px solid #005BFF; /* Example: turns the border blue when actively tapping/selecting */
-        }
+        /* =========================================
+           5. DASHBOARD UI STYLES
+           ========================================= */
+        .dash-container { display: flex; flex-direction: column; height: 100%; padding-bottom: 70px; margin: -var(--space-lg); padding: var(--space-lg); overflow-y: auto;}
+        
+        .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; margin-top: 10px; }
+        .dash-header h2 { font-size: 22px; font-weight: 800; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; }
+        .header-icons { display: flex; align-items: center; gap: 12px; }
+        .pro-btn { background-color: #F5D58B; color: #000000; font-size: 12px; font-weight: 800; padding: 4px 8px; border-radius: 4px; display: flex; align-items: center; gap: 4px;}
+        
+        .section-title { font-size: 16px; font-weight: 700; margin: 24px 0 12px 0; color: var(--color-text-main); }
+        
+        .h-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; margin-bottom: 20px;}
+        .h-scroll::-webkit-scrollbar { display: none; }
+        
+        .tab-pill { padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 600; color: var(--color-text-muted); background-color: var(--color-bg-surface); white-space: nowrap; cursor: pointer; border: 1px solid transparent; }
+        .tab-pill.active { color: var(--color-primary); background-color: rgba(0, 91, 255, 0.1); border-color: var(--color-primary); }
+        
+        .workout-list { display: flex; flex-direction: column; gap: 16px; }
+        .workout-card { display: flex; align-items: center; gap: 16px; cursor: pointer;}
+        .workout-img { width: 80px; height: 80px; border-radius: 12px; background-color: #333333; display: flex; justify-content: center; align-items: center; font-size: 32px;}
+        .workout-info { flex: 1; border-bottom: 1px solid var(--color-border-subtle); padding-bottom: 16px;}
+        .workout-card:last-child .workout-info { border-bottom: none; }
+        .w-title { font-size: 16px; font-weight: 700; color: var(--color-text-main); }
+        .w-meta { font-size: 13px; color: var(--color-text-muted); margin: 6px 0; }
+        .bolt { color: #444444; font-size: 12px; margin-right: 2px;}
+        .bolt.blue { color: var(--color-primary); }
+        
+        .tag-chip { padding: 10px 16px; border-radius: 8px; background-color: var(--color-bg-surface); color: var(--color-text-main); font-size: 13px; font-weight: 600; white-space: nowrap; display: flex; align-items: center; gap: 6px;}
+        .tag-icon { color: var(--color-primary); font-size: 16px;}
+        
+        .custom-banner { background: linear-gradient(135deg, #005BFF, #00A2FF); border-radius: 16px; padding: 24px; color: white; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0, 91, 255, 0.3);}
+        .banner-text-1 { font-size: 24px; font-weight: 800; line-height: 1.1;}
+        .banner-icon { font-size: 40px; background: rgba(255,255,255,0.2); width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; border-radius: 12px;}
+        
+        .bottom-nav { position: absolute; bottom: 0; left: 0; right: 0; background-color: var(--color-bg-base); display: flex; justify-content: space-around; padding: 12px 0 20px 0; border-top: 1px solid var(--color-border-subtle); z-index: 10; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--color-text-muted); font-size: 11px; font-weight: 600; gap: 6px; cursor: pointer;}
+        .nav-item.active { color: var(--color-primary); }
+        .nav-icon { font-size: 22px; }
     </style>
 </head>
 <body>
 
     <div id="app-container">
-        <div class="header">
+        <div class="header" id="onboard-header">
             <button class="icon-btn" onclick="prevStep()">←</button>
             <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
             <button class="skip-btn" onclick="nextStep()">Skip</button>
@@ -130,21 +130,18 @@
 
         <div id="options-container"></div>
 
-        <div class="footer">
+        <div class="footer" id="onboard-footer">
             <button class="btn-primary" id="next-btn" onclick="nextStep()" disabled>NEXT</button>
         </div>
     </div>
 
     <script>
         // --- DATA STRUCTURE ---
-        // Notice the new 'type' property for the custom screens
         const flowSteps = [
             { id: 'gender', type: 'options', title: 'What\'s your gender?', subtitle: 'Let us know you better', options: [{ value: 'male', title: 'Male', icon: '👨' }, { value: 'female', title: 'Female', icon: '👩' }] },
             { id: 'goals', type: 'options', title: 'What are your main goals?', subtitle: 'Let us tailor your calisthenics journey', options: [{ value: 'skills', title: 'Learn Skills', sub: 'Handstands, Muscle-ups', icon: '🤸' }, { value: 'muscle', title: 'Build Muscle', sub: 'Hypertrophy & Strength', icon: '💪' }, { value: 'shred', title: 'Get Shredded', sub: 'Lose fat, reveal abs', icon: '🔥' }] },
             { id: 'focus', type: 'options', title: 'Please choose your focus area', subtitle: 'Target specific muscle groups', options: [{ value: 'full_body', title: 'Full Body', icon: '🧍' }, { value: 'upper', title: 'Upper Body', sub: 'Arms & Chest', icon: '🦍' }, { value: 'core', title: 'Core', sub: 'Abs & Levers', icon: '🍫' }, { value: 'legs', title: 'Legs', sub: 'Pistol squats & Jumps', icon: '🦵' }] },
             { id: 'pushups', type: 'options', title: 'How many push-ups can you do?', subtitle: 'To determine your baseline strength', options: [{ value: 'beginner', title: 'Beginner', sub: '0-5 push-ups', icon: '☝️' }, { value: 'intermediate', title: 'Intermediate', sub: '5-15 push-ups', icon: '✌️' }, { value: 'advanced', title: 'Advanced', sub: 'At least 15+', icon: '👍' }] },
-            
-            // --- NEW STEPS ADDED HERE ---
             { id: 'metrics', type: 'metrics', title: 'Let us know you better', subtitle: 'Let us know you better to help boost your workout results' },
             { id: 'schedule', type: 'schedule', title: 'Set your weekly goal', subtitle: 'We recommend training at least 3 days weekly for a better result.' }
         ];
@@ -152,19 +149,19 @@
         // --- STATE MANAGEMENT ---
         let currentStepIndex = 0;
         let userData = {
-            // Default sub-states for the complex forms
             metrics: { weight: '', weightUnit: 'kg', height: '', heightUnit: 'cm' },
             schedule: { days: null, startDay: 'SUNDAY' }
         }; 
 
         // --- DOM ELEMENTS ---
+        const appContainer = document.getElementById('app-container');
         const titleEl = document.getElementById('question-title');
         const subtitleEl = document.getElementById('question-subtitle');
         const optionsContainer = document.getElementById('options-container');
         const nextBtn = document.getElementById('next-btn');
         const progressFill = document.getElementById('progress');
 
-        // --- CORE FUNCTIONS ---
+        // --- ONBOARDING LOGIC ---
         function renderStep() {
             const step = flowSteps[currentStepIndex];
             
@@ -175,17 +172,11 @@
             progressFill.style.width = `${progressPercentage}%`;
             optionsContainer.innerHTML = '';
 
-            // Render Logic based on Step "Type"
-            if (step.type === 'options') {
-                renderOptions(step);
-            } else if (step.type === 'metrics') {
-                renderMetrics();
-            } else if (step.type === 'schedule') {
-                renderSchedule();
-            }
+            if (step.type === 'options') renderOptions(step);
+            else if (step.type === 'metrics') renderMetrics();
+            else if (step.type === 'schedule') renderSchedule();
         }
 
-        // 1. Renderer for standard options (Cards)
         function renderOptions(step) {
             step.options.forEach(option => {
                 const isSelected = userData[step.id] === option.value;
@@ -199,7 +190,6 @@
             nextBtn.disabled = !userData[step.id];
         }
 
-        // 2. Renderer for Body Metrics
         function renderMetrics() {
             const m = userData.metrics;
             optionsContainer.innerHTML = `
@@ -227,17 +217,15 @@
                     <span style="color: var(--color-text-muted); font-weight: 600;">${m.heightUnit}</span>
                 </div>
             `;
-            // Enable next only if both fields have a value
             nextBtn.disabled = !(m.weight && m.height);
         }
 
         function updateMetric(key, value) {
             userData.metrics[key] = value;
-            if (key.includes('Unit')) renderStep(); // Only re-render full UI if unit changed
-            else nextBtn.disabled = !(userData.metrics.weight && userData.metrics.height); // otherwise just check validation
+            if (key.includes('Unit')) renderStep(); 
+            else nextBtn.disabled = !(userData.metrics.weight && userData.metrics.height); 
         }
 
-        // 3. Renderer for Weekly Schedule
         function renderSchedule() {
             const s = userData.schedule;
             let daysHtml = '<div class="days-grid">';
@@ -263,7 +251,6 @@
             renderStep();
         }
 
-        // Navigation Logic
         function nextStep() {
             if (currentStepIndex < flowSteps.length - 1) {
                 currentStepIndex++;
@@ -284,16 +271,107 @@
             optionsContainer.innerHTML = `
                 <div style="text-align: center; padding-top: 40px;">
                     <div style="font-size: 48px; margin-bottom: 20px;">✅</div>
-                    <h2 style="color: var(--color-text-main); margin-bottom: 10px;">Plan Generating...</h2>
-                    <p style="color: var(--color-text-muted);">Data payload ready for backend:</p>
-                    <pre style="text-align: left; background: var(--color-bg-subtle); padding: 16px; margin-top: 20px; border-radius: 8px; font-size: 14px; overflow-x: auto;">${JSON.stringify(userData, null, 2)}</pre>
+                    <h2 style="color: var(--color-text-main); margin-bottom: 10px;">Your Plan is Ready</h2>
+                    <p style="color: var(--color-text-muted);">We've customized your workouts based on your goals.</p>
                 </div>
             `;
             titleEl.style.display = 'none';
             subtitleEl.style.display = 'none';
-            nextBtn.textContent = 'GET MY PLAN';
+            document.getElementById('onboard-header').style.visibility = 'hidden';
+            
+            nextBtn.textContent = 'ENTER DASHBOARD';
             nextBtn.disabled = false;
-            nextBtn.onclick = () => alert('Transitioning to main app dashboard!');
+            nextBtn.onclick = loadDashboard;
+        }
+
+        // --- LOAD DASHBOARD ---
+        function loadDashboard() {
+            // Replace the entire contents of the app container with the new Dashboard UI
+            appContainer.innerHTML = `
+                <div class="dash-container">
+                    
+                    <div class="dash-header">
+                        <h2>HOME WORKOUT</h2>
+                        <div class="header-icons">
+                            <span style="font-size: 20px;">🔥</span>
+                            <div class="pro-btn">👑 PRO↑</div>
+                        </div>
+                    </div>
+
+                    <div class="section-title">Body Focus</div>
+                    <div class="h-scroll">
+                        <div class="tab-pill active">Abs</div>
+                        <div class="tab-pill">Arm</div>
+                        <div class="tab-pill">Chest</div>
+                        <div class="tab-pill">Leg</div>
+                        <div class="tab-pill">Shoulder</div>
+                    </div>
+
+                    <div class="workout-list">
+                        <div class="workout-card">
+                            <div class="workout-img">🧍</div>
+                            <div class="workout-info">
+                                <div class="w-title">Abs Beginner</div>
+                                <div class="w-meta">15 mins • 16 Exercises</div>
+                                <div><span class="bolt blue">⚡</span><span class="bolt">⚡</span><span class="bolt">⚡</span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="workout-card">
+                            <div class="workout-img">🦍</div>
+                            <div class="workout-info">
+                                <div class="w-title">Abs Intermediate</div>
+                                <div class="w-meta">24 mins • 21 Exercises</div>
+                                <div><span class="bolt blue">⚡</span><span class="bolt blue">⚡</span><span class="bolt">⚡</span></div>
+                            </div>
+                        </div>
+
+                        <div class="workout-card">
+                            <div class="workout-img">🔥</div>
+                            <div class="workout-info">
+                                <div class="w-title">Abs Advanced</div>
+                                <div class="w-meta">27 mins • 21 Exercises</div>
+                                <div><span class="bolt blue">⚡</span><span class="bolt blue">⚡</span><span class="bolt blue">⚡</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="h-scroll" style="margin-top: 10px;">
+                        <div class="tag-chip"><span class="tag-icon">⏱</span> >15 mins</div>
+                        <div class="tag-chip"><span class="tag-icon">⏱</span> 7-15 mins</div>
+                        <div class="tag-chip"><span class="tag-icon">🏋️</span> With Equipment</div>
+                        <div class="tag-chip"><span class="tag-icon">🔥</span> Burn Fat</div>
+                    </div>
+
+                    <div class="section-title">Custom Workout</div>
+                    <div class="custom-banner">
+                        <div>
+                            <div class="banner-text-1">CREATE</div>
+                            <div class="banner-text-1">YOUR OWN</div>
+                        </div>
+                        <div class="banner-icon">✏️</div>
+                    </div>
+                </div>
+
+                <div class="bottom-nav">
+                    <div class="nav-item active">
+                        <div class="nav-icon">⏱</div>
+                        <div>Training</div>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon">🧭</div>
+                        <div>Discover</div>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon">📊</div>
+                        <div>Report</div>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon">⚙️</div>
+                        <div>Settings</div>
+                    </div>
+                </div>
+            `;
         }
 
         // Initialize the app
