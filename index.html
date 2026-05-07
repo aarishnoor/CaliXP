@@ -92,7 +92,26 @@
         }
 
         /* Select Dropdown */
-        .custom-select { width: 100%; padding: 16px; border: 2px solid var(--color-border-subtle); border-radius: var(--radius-md); font-size: 16px; font-weight: 600; background-color: var(--color-bg-surface); outline: none; }
+        /* Select Dropdown */
+        .custom-select { 
+            width: 100%; 
+            padding: 16px; 
+            border: 2px solid var(--color-border-subtle); 
+            border-radius: var(--radius-md); 
+            font-size: 16px; 
+            font-weight: 600; 
+            background-color: var(--color-bg-surface); 
+            outline: none; 
+            
+            /* ADD THIS to change the color of the selected text */
+            color: #FFFFFF; 
+        }
+
+        /* ADD THIS ENTIRE BLOCK to change the colors in the dropdown menu itself */
+        .custom-select option {
+            color: #FFFFFF; /* Change this hex code for the text color */
+            background-color: #1A1A1A; /* Change this hex code for the background color of the options */
+        }
     </style>
 </head>
 <body>
